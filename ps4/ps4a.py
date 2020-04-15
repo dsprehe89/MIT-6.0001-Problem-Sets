@@ -1,7 +1,6 @@
 # Problem Set 4A
-# Name: <your name here>
-# Collaborators:
-# Time Spent: x:xx
+# Name: Daniel Sprehe
+# Date: 4/13/2020
 
 
 def get_permutations(sequence):
@@ -24,18 +23,25 @@ def get_permutations(sequence):
     a different order than what is listed here.
     '''
 
-    pass  # delete this line and replace with your code here
+    if len(sequence) <= 1:
+        return [sequence]
+    else:
+        lst = []
+        for x in get_permutations(sequence[:-1]):
+            for i in range(len(x)+1):
+                lst.append(x[:i] + sequence[-1] + x[i:])
+    return sorted(lst)
 
 
 if __name__ == '__main__':
     #    #EXAMPLE
-    #    example_input = 'abc'
-    #    print('Input:', example_input)
-    #    print('Expected Output:', ['abc', 'acb', 'bac', 'bca', 'cab', 'cba'])
-    #    print('Actual Output:', get_permutations(example_input))
+    example_input = 'abc'
+    print('Input:', example_input)
+    print('Expected Output:', ['abc', 'acb', 'bac', 'bca', 'cab', 'cba'])
+    print('Actual Output:', get_permutations(example_input))
 
     #    # Put three example test cases here (for your sanity, limit your inputs
     #    to be three characters or fewer as you will have n! permutations for a
     #    sequence of length n)
-
-    pass  # delete this line and replace with your code here
+    print('\nActual Output:', get_permutations('def'))
+    print('Actual Output:', get_permutations('ghi'))
