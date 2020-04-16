@@ -1,14 +1,13 @@
 # 6.0001/6.00 Problem Set 5 - RSS Feed Filter
-# Name:
-# Collaborators:
-# Time:
+# Name: Daniel Sprehe
+# Date: 4/16/2020
 
-import ps5_feedparser
+import feedparser
 import string
 import time
 import threading
 from ps5_project_util import translate_html
-from ps5_mtTkinter import *
+from mtTkinter import *
 from datetime import datetime
 import pytz
 
@@ -26,7 +25,7 @@ def process(url):
     Fetches news items from the rss url and parses them.
     Returns a list of NewsStory-s.
     """
-    feed = ps5_feedparser.parse(url)
+    feed = feedparser.parse(url)
     entries = feed.entries
     ret = []
     for entry in entries:
@@ -39,8 +38,8 @@ def process(url):
         try:
             pubdate = datetime.strptime(pubdate, "%a, %d %b %Y %H:%M:%S %Z")
             pubdate.replace(tzinfo=pytz.timezone("GMT"))
-          #  pubdate = pubdate.astimezone(pytz.timezone('EST'))
-          #  pubdate.replace(tzinfo=None)
+            # pubdate = pubdate.astimezone(pytz.timezone('EST'))
+            # pubdate.replace(tzinfo=None)
         except ValueError:
             pubdate = datetime.strptime(pubdate, "%a, %d %b %Y %H:%M:%S %z")
 
@@ -52,9 +51,30 @@ def process(url):
 # Data structure design
 # ======================
 
-# Problem 1
 
-# TODO: NewsStory
+# Problem 1
+class NewsStory:
+    def __init__(self, guid, title, description, link, pubdate):
+        self.guid = guid
+        self.title = title
+        self.description = description
+        self.link = link
+        self.pubdate = pubdate
+
+    def get_guid(self):
+        return self.guid
+
+    def get_title(self):
+        return self.title
+
+    def get_description(self):
+        return self.description
+
+    def get_link(self):
+        return self.link
+
+    def get_pubdate(self):
+        return self.pubdate
 
 
 # ======================
@@ -70,39 +90,38 @@ class Trigger(object):
         # DO NOT CHANGE THIS!
         raise NotImplementedError
 
-# PHRASE TRIGGERS
+    # PHRASE TRIGGERS
 
-# Problem 2
-# TODO: PhraseTrigger
+    # Problem 2
+    # TODO: PhraseTrigger
 
-# Problem 3
-# TODO: TitleTrigger
+    # Problem 3
+    # TODO: TitleTrigger
 
-# Problem 4
-# TODO: DescriptionTrigger
+    # Problem 4
+    # TODO: DescriptionTrigger
 
-# TIME TRIGGERS
+    # TIME TRIGGERS
 
-# Problem 5
-# TODO: TimeTrigger
-# Constructor:
-#        Input: Time has to be in EST and in the format of "%d %b %Y %H:%M:%S".
-#        Convert time from string to a datetime before saving it as an attribute.
+    # Problem 5
+    # TODO: TimeTrigger
+    # Constructor:
+    #        Input: Time has to be in EST and in the format of "%d %b %Y %H:%M:%S".
+    #        Convert time from string to a datetime before saving it as an attribute.
 
-# Problem 6
-# TODO: BeforeTrigger and AfterTrigger
+    # Problem 6
+    # TODO: BeforeTrigger and AfterTrigger
 
+    # COMPOSITE TRIGGERS
 
-# COMPOSITE TRIGGERS
+    # Problem 7
+    # TODO: NotTrigger
 
-# Problem 7
-# TODO: NotTrigger
+    # Problem 8
+    # TODO: AndTrigger
 
-# Problem 8
-# TODO: AndTrigger
-
-# Problem 9
-# TODO: OrTrigger
+    # Problem 9
+    # TODO: OrTrigger
 
 
 # ======================
