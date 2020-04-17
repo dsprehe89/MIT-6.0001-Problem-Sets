@@ -188,13 +188,44 @@ class AfterTrigger(TimeTrigger):
 
 # COMPOSITE TRIGGERS
 # Problem 7
-# TODO: NotTrigger
+class NotTrigger(Trigger):
+    def __init__(self, OtherTrigger):
+        self.OtherTrigger = OtherTrigger
+
+    def evaluate(self, story):
+        """
+        Returns True if an alert should be generated
+        for the given news item, or False otherwise.
+        """
+        return not self.OtherTrigger.evaluate(story)
+
 
 # Problem 8
-# TODO: AndTrigger
+class AndTrigger(Trigger):
+    def __init__(self, Trigger1, Trigger2):
+        self.Trigger1 = Trigger1
+        self.Trigger2 = Trigger2
+
+    def evaluate(self, story):
+        """
+        Returns True if an alert should be generated
+        for the given news item, or False otherwise.
+        """
+        return self.Trigger1.evaluate(story) and self.Trigger2.evaluate(story)
+
 
 # Problem 9
-# TODO: OrTrigger
+class OrTrigger(Trigger):
+    def __init__(self, Trigger1, Trigger2):
+        self.Trigger1 = Trigger1
+        self.Trigger2 = Trigger2
+
+    def evaluate(self, story):
+        """
+        Returns True if an alert should be generated
+        for the given news item, or False otherwise.
+        """
+        return self.Trigger1.evaluate(story) or self.Trigger2.evaluate(story)
 
 
 # ======================
