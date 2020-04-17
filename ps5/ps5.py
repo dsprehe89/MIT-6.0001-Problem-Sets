@@ -80,7 +80,6 @@ class NewsStory:
 # ======================
 # Triggers
 # ======================
-
 class Trigger(object):
     def evaluate(self, story):
         """
@@ -90,38 +89,87 @@ class Trigger(object):
         # DO NOT CHANGE THIS!
         raise NotImplementedError
 
-    # PHRASE TRIGGERS
 
-    # Problem 2
-    # TODO: PhraseTrigger
+# PHRASE TRIGGERS
+# Problem 2
+class PhraseTrigger(Trigger):
+    def __init__(self, phrase):
+        self.phrase = phrase.lower()
 
-    # Problem 3
-    # TODO: TitleTrigger
+    def is_phrase_in(self, text):
+        new_text = ''
 
-    # Problem 4
-    # TODO: DescriptionTrigger
+        # Clean the text
+        for symbol in string.punctuation:
+            text = text.replace(symbol, ' ')
+        split_text = text.split()
+        for word in split_text:
+            new_text += word.strip() + ' '
 
-    # TIME TRIGGERS
+        # Check the text for the phrase
+        if self.phrase.lower() in new_text.lower():
+            for word in self.phrase.lower().split():
+                if word in new_text.lower().split():
+                    continue
+                else:
+                    return False
+            return True
+        else:
+            return False
 
-    # Problem 5
-    # TODO: TimeTrigger
-    # Constructor:
-    #        Input: Time has to be in EST and in the format of "%d %b %Y %H:%M:%S".
-    #        Convert time from string to a datetime before saving it as an attribute.
 
-    # Problem 6
-    # TODO: BeforeTrigger and AfterTrigger
+# Problem 3
+class TitleTrigger(PhraseTrigger):
+    def __init__(self, phrase):
+        super().__init__(phrase)
 
-    # COMPOSITE TRIGGERS
+    def evaluate(self, story):
+        """
+        Returns True if an alert should be generated
+        for the given news item, or False otherwise.
+        """
+        if self.is_phrase_in(story.get_title()):
+            return True
+        else:
+            return False
 
-    # Problem 7
-    # TODO: NotTrigger
 
-    # Problem 8
-    # TODO: AndTrigger
+# Problem 4
+class DescriptionTrigger(PhraseTrigger):
+    def __init__(self, phrase):
+        super().__init__(phrase)
 
-    # Problem 9
-    # TODO: OrTrigger
+    def evaluate(self, story):
+        """
+        Returns True if an alert should be generated
+        for the given news item, or False otherwise.
+        """
+        if self.is_phrase_in(story.get_description()):
+            return True
+        else:
+            return False
+
+
+# TIME TRIGGERS
+# Problem 5
+# TODO: TimeTrigger
+# Constructor:
+#        Input: Time has to be in EST and in the format of "%d %b %Y %H:%M:%S".
+#        Convert time from string to a datetime before saving it as an attribute.
+
+# Problem 6
+# TODO: BeforeTrigger and AfterTrigger
+
+# COMPOSITE TRIGGERS
+
+# Problem 7
+# TODO: NotTrigger
+
+# Problem 8
+# TODO: AndTrigger
+
+# Problem 9
+# TODO: OrTrigger
 
 
 # ======================
