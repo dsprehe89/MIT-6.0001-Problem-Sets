@@ -239,15 +239,41 @@ def filter_stories(stories, triggerlist):
 
     Returns: a list of only the stories for which a trigger in triggerlist fires.
     """
-    # TODO: Problem 10
-    # This is a placeholder
-    # (we're just returning all the stories, with no filtering)
-    return stories
+    new_stories = []
+    for trig in triggerlist:
+        for story in stories:
+            if trig.evaluate(story):
+                new_stories.append(story)
+    return new_stories
 
 
 # ======================
 # User-Specified Triggers
 # ======================
+def trigger_list_dictionary(triggerlines):
+    triggers = {}
+    for line in triggerlines:
+        line = line.split(',')
+        if line[0][0] == 't':
+            if line[1] == 'TITLE':
+                triggers[line[0]] = TitleTrigger(line[2])
+            if line[1] == 'DESCRIPTION':
+                triggers[line[0]] = DescriptionTrigger(line[2])
+            if line[1] == 'AFTER':
+                triggers[line[0]] = AfterTrigger(line[2])
+            if line[1] == 'BEFORE':
+                triggers[line[0]] = BeforeTrigger(line[2])
+            if line[1] == 'NOT':
+                triggers[line[0]] = NotTrigger(triggers[line[2]])
+            if line[1] == 'AND':
+                triggers[line[0]] = AndTrigger(
+                    triggers[line[2]], triggers[line[3]])
+            if line[1] == 'OR':
+                triggers[line[0]] = OrTrigger(
+                    triggers[line[2]], triggers[line[3]])
+    return triggers
+
+
 # Problem 11
 def read_trigger_config(filename):
     """
@@ -260,6 +286,7 @@ def read_trigger_config(filename):
     # comments. You don't need to know how it works for now!
     trigger_file = open(filename, 'r')
     lines = []
+    triggerlist = []
     for line in trigger_file:
         line = line.rstrip()
         if not (len(line) == 0 or line.startswith('//')):
@@ -268,8 +295,16 @@ def read_trigger_config(filename):
     # TODO: Problem 11
     # line is the list of lines that you need to parse and for which you need
     # to build triggers
+    trigger_dict = trigger_list_dictionary(lines)
 
-    print(lines)  # for now, print it so you see what it contains!
+    for line in lines:
+        line = line.split(',')
+        if line[0] == 'ADD':
+            for triggers in line:
+                if triggers[0] == 't':
+                    triggerlist.append(trigger_dict[triggers])
+
+    return triggerlist
 
 
 SLEEPTIME = 120  # seconds -- how often we poll
@@ -279,15 +314,15 @@ def main_thread(master):
     # A sample trigger list - you might need to change the phrases to correspond
     # to what is currently in the news
     try:
-        t1 = TitleTrigger("election")
+        '''t1 = TitleTrigger("election")
         t2 = DescriptionTrigger("Trump")
         t3 = DescriptionTrigger("Clinton")
         t4 = AndTrigger(t2, t3)
-        triggerlist = [t1, t4]
+        triggerlist = [t1, t4]'''
 
         # Problem 11
         # TODO: After implementing read_trigger_config, uncomment this line
-        # triggerlist = read_trigger_config('ps5_triggers.txt')
+        triggerlist = read_trigger_config('ps5_triggers.txt')
 
         # HELPER CODE - you don't need to understand this!
         # Draws the popup window that displays the filtered stories
