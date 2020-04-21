@@ -10,3 +10,6 @@ https://ocw.mit.edu/courses/electrical-engineering-and-computer-science/6-0001-i
 These files are were initially created and owned by MIT and should only be downloaded and used for education purposes.
 
 The creation of this repository was to document my progress in completing these problems.
+
+Course Citation
+Ana Bell, Eric Grimson, and John Guttag. 6.0001 Introduction to Computer Science and Programming in Python. Fall 2016. Massachusetts Institute of Technology: MIT OpenCourseWare, https://ocw.mit.edu. License: Creative Commons BY-NC-SA.
